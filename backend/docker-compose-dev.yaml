@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: postgres-dev-avant
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: 'avantsoft-db'
+    ports:
+      - '5432:5432'
+
+    networks:
+      - dev-network
+
+networks:
+  dev-network:
+    driver: bridge
