@@ -1,16 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('product')
+@Entity("product")
 export class Product {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column({ type: 'varchar', length: 255 })
-  name: string;
+    @Column({ type: "varchar", length: 255 })
+    name: string;
 
-  @Column({ type: 'numeric', precision: 15, scale: 2 })
-  price: number;
+    @Column({ type: "numeric", precision: 15, scale: 2 })
+    price: number;
 
-  @Column({ type: 'varchar', length: 150, unique: true })
-  sku: string;
+    @Column({ type: "varchar", length: 150, unique: true })
+    sku: string;
 }
