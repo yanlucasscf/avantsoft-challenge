@@ -1,6 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity("product")
+@Entity("products")
 export class Product {
     @PrimaryGeneratedColumn()
     id: number;
@@ -13,4 +13,10 @@ export class Product {
 
     @Column({ type: "varchar", length: 150, unique: true })
     sku: string;
+
+    @CreateDateColumn({ type: "timestamp" })
+    createdAt: Date;
+
+    @CreateDateColumn({ type: "timestamp" })
+    updatedAt: Date;
 }
