@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Product } from "./entities/product.entity";
 import { CreateProductDto } from "./dto/create-product-dto";
+import { getFirstMissingAlphabetLetter } from "src/common/helpers/get-first-missing-letter";
 
 @Injectable()
 export class ProductService {
@@ -32,5 +33,17 @@ export class ProductService {
         return this.productRepository.findOne({
             where: { sku },
         });
+    }
+
+    async getAllProductsWithMissingLetter() {
+        const products = await this.productRepository.find({ order: { name: "ASC" } });
+
+        if (products.length > 0) {
+            return products.map(product => ({
+                ...product,
+                firstMissingAlphabetLetter: getFirstMissingAlphabetLetter(product.name),
+            }));
+        }
+        return [];
     }
 }
