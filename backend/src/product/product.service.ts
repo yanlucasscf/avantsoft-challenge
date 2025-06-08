@@ -1,4 +1,9 @@
-import { ConflictException, Injectable, InternalServerErrorException } from "@nestjs/common";
+import {
+    ConflictException,
+    Injectable,
+    InternalServerErrorException,
+    NotFoundException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Product } from "./entities/product.entity";
@@ -45,5 +50,18 @@ export class ProductService {
             }));
         }
         return [];
+    }
+
+    async getProductById(id: number) {
+        const product = await this.productRepository.findOne({
+            where: { id },
+        });
+        if (!product) {
+            throw new NotFoundException("Produto não encontrado.");
+        }
+        return {
+            ...product,
+            firstMissingAlphabetLetter: getFirstMissingAlphabetLetter(product.name),
+        };
     }
 }
