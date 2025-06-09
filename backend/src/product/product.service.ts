@@ -99,4 +99,16 @@ export class ProductService {
             throw new InternalServerErrorException("Erro ao atualizar o produto");
         }
     }
+
+    async deleteProduct(id: number) {
+        const product = await this.getProductById(id);
+        if (!product) {
+            throw new NotFoundException("Produto não encontrado.");
+        }
+        try {
+            await this.productRepository.delete(id);
+        } catch (error) {
+            throw new InternalServerErrorException("Erro ao excluir o produto.");
+        }
+    }
 }
