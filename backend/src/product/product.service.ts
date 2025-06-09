@@ -9,6 +9,7 @@ import { Repository } from "typeorm";
 import { Product } from "./entities/product.entity";
 import { CreateProductDto } from "./dto/create-product-dto";
 import { getFirstMissingAlphabetLetter } from "src/common/helpers/get-first-missing-letter";
+import { UpdateProductDto } from "./dto/update-product-dto";
 
 @Injectable()
 export class ProductService {
@@ -63,5 +64,39 @@ export class ProductService {
             ...product,
             firstMissingAlphabetLetter: getFirstMissingAlphabetLetter(product.name),
         };
+    }
+
+    async checkIfSkuAlreadyRegistered(sku: string) {
+        const productWithSku = await this.findProductBySku(sku);
+
+        if (productWithSku) {
+            throw new ConflictException(
+                `Esse produto já está vinculado ao produto: ${productWithSku.name},`,
+            );
+        }
+    }
+
+    async updateProduct(id: number, updateData: UpdateProductDto) {
+        const product = await this.getProductById(id);
+
+        if (updateData.sku && updateData.sku !== product.sku) {
+            await this.checkIfSkuAlreadyRegistered(updateData.sku);
+        }
+
+        try {
+            await this.productRepository.update(id, {
+                ...updateData,
+                updatedAt: new Date(),
+            });
+
+            const updatedProduct = await this.getProductById(id);
+
+            return {
+                ...updatedProduct,
+                firstMissingAlphabetLetter: getFirstMissingAlphabetLetter(updatedProduct.name),
+            };
+        } catch (error) {
+            throw new InternalServerErrorException("Erro ao atualizar o produto");
+        }
     }
 }
