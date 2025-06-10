@@ -57,8 +57,16 @@ export default function ProductCardComponent({ product }) {
 
     const handleDeleteProduct = async id => {
         try {
-            console.log(id);
-        } catch (error) {}
+            const response = await axios.delete(
+                `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`,
+            );
+            if (response.status === 200) {
+                alert("Produto excluído com sucesso!");
+                return;
+            }
+        } catch (error) {
+            alert("Erro inesperado ao excluir o produto.");
+        }
     };
     return (
         <Card.Root width="320px">
