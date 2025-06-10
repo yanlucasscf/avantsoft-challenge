@@ -20,7 +20,7 @@ import { ProductModule } from "./product/product.module";
                 type: "postgres",
                 username: configService.get<string>("DB_USERNAME"),
                 host: configService.get<string>("DB_HOST"),
-                port: configService.get<number>("DB_PORT") || 5432,
+                port: configService.get<number>("DB_PORT") || 5433,
                 database: configService.get<string>("DB_NAME"),
                 password: configService.get<string>("DB_PASSWORD"),
                 entities: [__dirname + "/**/*.entity.{js,ts}"],
