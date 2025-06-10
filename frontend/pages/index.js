@@ -22,12 +22,16 @@ export default function Home() {
         fetchProducts();
     }, []);
 
+    const onProductsChange = async () => {
+        fetchProducts();
+    };
+
     return (
         <Box>
             <Flex display={{ base: "none", md: "flex" }}>
                 <Box w="250px" minW="250px" bg="blue.100" p={4} position="sticky" top="0" h="10/12">
                     <Flex direction="column" gap={4}>
-                        <CreateProduct setProducts={setProducts} />
+                        <CreateProduct onProductCreated={onProductsChange} />
                     </Flex>
                 </Box>
 
@@ -41,7 +45,11 @@ export default function Home() {
                             minH="60vh"
                         >
                             {products.map(product => (
-                                <ProductCardComponent key={product.id} product={product} />
+                                <ProductCardComponent
+                                    key={product.id}
+                                    product={product}
+                                    onProductsChange={onProductsChange}
+                                />
                             ))}
                         </Flex>
                     </Box>

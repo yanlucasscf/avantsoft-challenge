@@ -5,7 +5,7 @@ import ProductForm from "./ProductForm";
 import { getErrorMessage } from "../utils/errorMessage";
 import axios from "axios";
 
-export default function ProductCardComponent({ product }) {
+export default function ProductCardComponent({ product, onProductsChange }) {
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({ ...product });
     const resetData = () => {
@@ -34,7 +34,9 @@ export default function ProductCardComponent({ product }) {
 
             if (response.status === 200) {
                 alert("Produto editado com sucesso!");
+
                 setIsEditing(false);
+                onProductsChange();
                 return;
             }
         } catch (error) {
@@ -62,6 +64,7 @@ export default function ProductCardComponent({ product }) {
             );
             if (response.status === 200) {
                 alert("Produto excluído com sucesso!");
+                onProductsChange();
                 return;
             }
         } catch (error) {

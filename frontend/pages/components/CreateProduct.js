@@ -6,7 +6,7 @@ import axios from "axios";
 import { getErrorMessage } from "../utils/errorMessage";
 import ProductForm from "./ProductForm";
 
-export default function CreateProduct({ setProducts }) {
+export default function CreateProduct({ onProductCreated }) {
     const [newProduct, setNewProduct] = useState({
         name: "",
         sku: "",
@@ -37,8 +37,8 @@ export default function CreateProduct({ setProducts }) {
 
             if (response.status === 201) {
                 console.log("Produto cadastrado com sucesso:", response.data);
-                setProducts(prev => [...prev, response.data]);
                 alert("Produto cadastrado com sucesso!");
+                onProductCreated();
                 setOpen(false);
                 return;
             }
