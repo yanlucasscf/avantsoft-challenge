@@ -74,7 +74,7 @@ export default function ProductCardComponent({ product, onProductsChange }) {
     return (
         <Card.Root width="320px">
             <Card.Body gap="2">
-                <Card.Title mt="2">Nome: {product.name}</Card.Title>
+                <Card.Title textAlign="center">Nome: {product.name}</Card.Title>
                 <Card.Description as="div">
                     <Text> SKU: {product.sku}</Text>
                     <Text>
@@ -84,7 +84,9 @@ export default function ProductCardComponent({ product, onProductsChange }) {
                             currency: "BRL",
                         })}
                     </Text>
-                    <Text>First Missing Alphabet Letter: {product.firstMissingAlphabetLetter}</Text>
+                    <Text>
+                        Primeira letra do alfabeto faltante: {product.firstMissingAlphabetLetter}
+                    </Text>
                 </Card.Description>
             </Card.Body>
             <Card.Footer justifyContent="flex-end">
