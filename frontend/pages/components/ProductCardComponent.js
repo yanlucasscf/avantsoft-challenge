@@ -40,8 +40,6 @@ export default function ProductCardComponent({ product, onProductsChange }) {
                 return;
             }
         } catch (error) {
-            console.log(error);
-
             const errorMessage = getErrorMessage(error);
             alert(errorMessage);
         }

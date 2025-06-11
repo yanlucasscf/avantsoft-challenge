@@ -36,7 +36,6 @@ export default function CreateProduct({ onProductCreated }) {
             );
 
             if (response.status === 201) {
-                console.log("Produto cadastrado com sucesso:", response.data);
                 alert("Produto cadastrado com sucesso!");
                 onProductCreated();
                 setOpen(false);
