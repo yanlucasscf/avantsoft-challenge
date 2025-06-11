@@ -19,7 +19,7 @@ export default function DialogComponent({
             }}
         >
             <Dialog.Trigger asChild>
-                <Button size="md" bg="blackAlpha.800" color="white" _hover={{ bg: "cyan.900" }}>
+                <Button size="md" bg="blue.600" color={"white"} _hover={{ bg: "blue.700" }} p={2}>
                     {buttonLabel}
                 </Button>
             </Dialog.Trigger>
@@ -30,7 +30,9 @@ export default function DialogComponent({
                     <Dialog.Content bg="white" p={14} borderRadius="md" boxShadow="lg">
                         <Dialog.Header>
                             <Dialog.Title color="blackAlpha.800" fontSize="xl" w="100%" mb={4}>
-                                <Text textAlign="center">{dialogTitle}</Text>
+                                <Text textAlign="center" color="#080E46">
+                                    {dialogTitle}
+                                </Text>
                             </Dialog.Title>
                         </Dialog.Header>
 

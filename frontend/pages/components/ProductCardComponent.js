@@ -71,25 +71,39 @@ export default function ProductCardComponent({ product, onProductsChange }) {
             alert("Erro inesperado ao excluir o produto.");
         }
     };
+
     return (
-        <Card.Root width="320px">
+        <Card.Root
+            width="320px"
+            bg="white"
+            borderRadius="lg"
+            shadow="md"
+            border="1px solid"
+            borderColor="gray.200"
+        >
             <Card.Body gap="2">
-                <Card.Title textAlign="center">Nome: {product.name}</Card.Title>
+                <Card.Title textAlign="center" color="black" fontWeight="bold">
+                    {product.name}
+                </Card.Title>
+
                 <Card.Description as="div">
-                    <Text> SKU: {product.sku}</Text>
-                    <Text>
-                        Price:{" "}
+                    <Text color="gray.600" fontWeight="bold">
+                        SKU: {product.sku}
+                    </Text>
+                    <Text color="gray.600" fontWeight="bold">
+                        Preço:{" "}
                         {product.price.toLocaleString("pt-BR", {
                             style: "currency",
                             currency: "BRL",
                         })}
                     </Text>
-                    <Text>
+                    <Text color="gray.600" fontWeight="bold">
                         Primeira letra do alfabeto faltante: {product.firstMissingAlphabetLetter}
                     </Text>
                 </Card.Description>
             </Card.Body>
-            <Card.Footer justifyContent="flex-end">
+
+            <Card.Footer justifyContent="flex-end" mt={5} gap={4} p={4}>
                 <DialogComponent
                     buttonLabel="Editar"
                     dialogTitle="Editar produto"
@@ -99,10 +113,17 @@ export default function ProductCardComponent({ product, onProductsChange }) {
                     open={isEditing}
                     setOpen={setIsEditing}
                     handleSubmit={handleSubmit}
-                    handleSubmitButtonText="Editar"
+                    handleSubmitButtonText="Salvar"
                     cancelFunction={resetData}
                 />
-                <Button variant="outline" onClick={() => handleDeleteProduct(product.id)}>
+
+                <Button
+                    bg="red.600"
+                    _hover={{ bg: "red.800" }}
+                    color="white"
+                    onClick={() => handleDeleteProduct(product.id)}
+                    p={2}
+                >
                     Excluir
                 </Button>
             </Card.Footer>
