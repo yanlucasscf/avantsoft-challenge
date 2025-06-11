@@ -75,7 +75,7 @@ export default function ProductCardComponent({ product, onProductsChange }) {
         <Card.Root width="320px">
             <Card.Body gap="2">
                 <Card.Title mt="2">Nome: {product.name}</Card.Title>
-                <Card.Description>
+                <Card.Description as="div">
                     <Text> SKU: {product.sku}</Text>
                     <Text>
                         Price:{" "}
