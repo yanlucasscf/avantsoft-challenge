@@ -5,7 +5,7 @@ import ProductForm from "./ProductForm";
 import { getErrorMessage } from "../utils/errorMessage";
 import axios from "axios";
 
-export default function ProductCardComponent({ product }) {
+export default function ProductCardComponent({ product, onProductsChange }) {
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({ ...product });
     const resetData = () => {
@@ -34,7 +34,9 @@ export default function ProductCardComponent({ product }) {
 
             if (response.status === 200) {
                 alert("Produto editado com sucesso!");
+
                 setIsEditing(false);
+                onProductsChange();
                 return;
             }
         } catch (error) {
@@ -57,14 +59,23 @@ export default function ProductCardComponent({ product }) {
 
     const handleDeleteProduct = async id => {
         try {
-            console.log(id);
-        } catch (error) {}
+            const response = await axios.delete(
+                `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`,
+            );
+            if (response.status === 200) {
+                alert("Produto excluído com sucesso!");
+                onProductsChange();
+                return;
+            }
+        } catch (error) {
+            alert("Erro inesperado ao excluir o produto.");
+        }
     };
     return (
         <Card.Root width="320px">
             <Card.Body gap="2">
                 <Card.Title mt="2">Nome: {product.name}</Card.Title>
-                <Card.Description>
+                <Card.Description as="div">
                     <Text> SKU: {product.sku}</Text>
                     <Text>
                         Price:{" "}
