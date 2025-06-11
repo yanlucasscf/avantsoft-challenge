@@ -1,11 +1,14 @@
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
 import DialogComponent from "./components/Dialog";
 import CreateProduct from "./components/CreateProduct";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCardComponent from "./components/ProductCardComponent.js";
+import DrawerComponent from "./components/Drawer";
+
 export default function Home() {
     const [products, setProducts] = useState([]);
+
     const fetchProducts = async () => {
         try {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`);
@@ -26,42 +29,41 @@ export default function Home() {
         fetchProducts();
     };
 
-    return (
-        <Box>
-            <Flex display={{ base: "none", md: "flex" }}>
-                <Box w="250px" minW="250px" bg="blue.100" p={4} position="sticky" top="0" h="10/12">
-                    <Flex direction="column" gap={4}>
-                        <CreateProduct onProductCreated={onProductsChange} />
-                    </Flex>
-                </Box>
+    const isMobile = useBreakpointValue({ base: true, md: false });
 
-                {products.length > 0 && (
-                    <Box flex="1" p={4}>
-                        <Flex
-                            justifyContent="center"
-                            alignItems="flex-start"
-                            flexWrap="wrap"
-                            gap={6}
-                            minH="60vh"
-                        >
-                            {products.map(product => (
-                                <ProductCardComponent
-                                    key={product.id}
-                                    product={product}
-                                    onProductsChange={onProductsChange}
-                                />
-                            ))}
-                        </Flex>
+    return (
+        <Box p={4}>
+            <Box display={{ base: "none", md: "block" }} p={4}>
+                <CreateProduct onProductCreated={onProductsChange} />
+            </Box>
+
+            {isMobile && (
+                <Box mt={6} p={4} borderRadius="md">
+                    <Box textAlign="center" fontWeight="bold">
+                        <DrawerComponent />
                     </Box>
+                </Box>
+            )}
+            <Flex
+                direction={{ base: "column", md: "row" }}
+                wrap="wrap"
+                justify="center"
+                align="flex-start"
+                gap={4}
+                mt={6}
+            >
+                {products.length > 0 ? (
+                    products.map(product => (
+                        <ProductCardComponent
+                            key={product.id}
+                            product={product}
+                            onProductsChange={onProductsChange}
+                        />
+                    ))
+                ) : (
+                    <Box mt={4}>Nenhum produto encontrado.</Box>
                 )}
             </Flex>
-
-            <Box display={{ base: "block", md: "none" }} p={4} bg="green.100" h="100vh">
-                <Flex direction="column" gap={4} bg="blue.200" h="100%" justifyContent="start">
-                    <Box> kk </Box>
-                    {/* <DrawerComponent handleSelectButton={handleSelectButton} /> */}
-                </Flex>
-            </Box>
         </Box>
     );
 }
