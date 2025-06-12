@@ -48,6 +48,8 @@ Para facilitar o processo de execução, um script de automação foi incluído 
 sistemas Linux. Siga as instruções abaixo para executar o projeto em diferentes
 ambientes:
 
+-   Por favor, certifique-se de ter o Docker instalado na sua máquina :D
+
 #### Em Sistemas Linux
 
 1. Clone o repositório
@@ -74,7 +76,7 @@ http://localhost:3000
     backend)
 
 ```bash
-http://localhost:5000
+http://localhost:8080
 ```
 
 ### Em outros sistemas
@@ -117,7 +119,7 @@ npm run start:dev
     backend.)
 
 ```bash
-http://localhost:5000
+http://localhost:8080
 ```
 
 ### Executar frontend

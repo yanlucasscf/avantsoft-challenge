@@ -4,8 +4,12 @@ import { useState } from "react";
 import ProductForm from "./ProductForm";
 import { getErrorMessage } from "../utils/errorMessage";
 import axios from "axios";
+import { useToast } from "@/context/ToastContext";
+import Popover from "./Popover";
+import PopoverComponent from "./Popover";
 
 export default function ProductCardComponent({ product, onProductsChange }) {
+    const { notifySuccess, notifyError } = useToast();
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({ ...product });
     const resetData = () => {
@@ -33,22 +37,21 @@ export default function ProductCardComponent({ product, onProductsChange }) {
             );
 
             if (response.status === 200) {
-                alert("Produto editado com sucesso!");
-
+                notifySuccess("Produto atualizado com sucesso!");
                 setIsEditing(false);
                 onProductsChange();
                 return;
             }
         } catch (error) {
             const errorMessage = getErrorMessage(error);
-            alert(errorMessage);
+            notifyError(errorMessage);
         }
     };
 
     const handleSubmit = async () => {
         const { name, sku, price } = formData;
         if (!name || !sku || !price) {
-            alert("Preencha todos os campos obrigatórios.");
+            notifyError("Todos os campos são obrigatórios.");
             return;
         }
 
@@ -61,12 +64,12 @@ export default function ProductCardComponent({ product, onProductsChange }) {
                 `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`,
             );
             if (response.status === 200) {
-                alert("Produto excluído com sucesso!");
+                notifySuccess("Produto excluído com sucesso!");
                 onProductsChange();
                 return;
             }
         } catch (error) {
-            alert("Erro inesperado ao excluir o produto.");
+            notifyError("Erro inesperado ao excluir o produto.");
         }
     };
 
@@ -80,7 +83,7 @@ export default function ProductCardComponent({ product, onProductsChange }) {
             borderColor="gray.200"
         >
             <Card.Body gap="2">
-                <Card.Title textAlign="center" color="black" fontWeight="bold">
+                <Card.Title textAlign="center" color="black" fontWeight="bold" mt={2}>
                     {product.name}
                 </Card.Title>
 
@@ -114,16 +117,13 @@ export default function ProductCardComponent({ product, onProductsChange }) {
                     handleSubmitButtonText="Salvar"
                     cancelFunction={resetData}
                 />
-
-                <Button
-                    bg="red.600"
-                    _hover={{ bg: "red.800" }}
-                    color="white"
-                    onClick={() => handleDeleteProduct(product.id)}
-                    p={2}
-                >
-                    Excluir
-                </Button>
+                <PopoverComponent
+                    buttonLabel="Deletar"
+                    titlePopover="Você realmente deseja excluir?"
+                    contentPopover="Essa ação é permanente"
+                    buttonLabelAction="Excluir"
+                    onClickButtonAction={() => handleDeleteProduct(product.id)}
+                />
             </Card.Footer>
         </Card.Root>
     );

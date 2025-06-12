@@ -5,8 +5,10 @@ import { useState } from "react";
 import axios from "axios";
 import { getErrorMessage } from "../utils/errorMessage";
 import ProductForm from "./ProductForm";
+import { useToast } from "@/context/ToastContext";
 
 export default function CreateProduct({ onProductCreated }) {
+    const { notifySuccess, notifyError } = useToast();
     const [newProduct, setNewProduct] = useState({
         name: "",
         sku: "",
@@ -36,14 +38,14 @@ export default function CreateProduct({ onProductCreated }) {
             );
 
             if (response.status === 201) {
-                alert("Produto cadastrado com sucesso!");
+                notifySuccess("Produto cadastrado com sucesso!");
                 onProductCreated();
                 setOpen(false);
                 return;
             }
         } catch (error) {
             const errorMessage = getErrorMessage(error);
-            alert(errorMessage);
+            notifyError(errorMessage);
         } finally {
             clearForm();
         }
@@ -52,7 +54,7 @@ export default function CreateProduct({ onProductCreated }) {
     const handleSubmitForm = async () => {
         const { name, sku, price } = newProduct;
         if (!name || !sku || !price) {
-            alert("Preencha todos os campos obrigatórios.");
+            notifyError("Todos os campos são obrigatórios.");
             return;
         }
 

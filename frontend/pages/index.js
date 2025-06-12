@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCardComponent from "./components/ProductCardComponent.js";
 import DrawerComponent from "./components/Drawer";
+import { useToast } from "@/context/ToastContext";
 
 export default function Home() {
     const [products, setProducts] = useState([]);
-
+    const { notifySuccess, notifyError } = useToast();
     const fetchProducts = async () => {
         try {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`);
@@ -16,8 +17,7 @@ export default function Home() {
                 setProducts(response.data);
             }
         } catch (error) {
-            console.error("Error fetching products:", error);
-            alert("Failed to fetch products. Please try again later.");
+            notifyError("Erro inesperado ao buscar produtos.");
         }
     };
 
