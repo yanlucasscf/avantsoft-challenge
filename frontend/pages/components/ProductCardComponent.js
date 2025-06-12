@@ -5,6 +5,8 @@ import ProductForm from "./ProductForm";
 import { getErrorMessage } from "../utils/errorMessage";
 import axios from "axios";
 import { useToast } from "@/context/ToastContext";
+import Popover from "./Popover";
+import PopoverComponent from "./Popover";
 
 export default function ProductCardComponent({ product, onProductsChange }) {
     const { notifySuccess, notifyError } = useToast();
@@ -115,16 +117,13 @@ export default function ProductCardComponent({ product, onProductsChange }) {
                     handleSubmitButtonText="Salvar"
                     cancelFunction={resetData}
                 />
-
-                <Button
-                    bg="red.600"
-                    _hover={{ bg: "red.800" }}
-                    color="white"
-                    onClick={() => handleDeleteProduct(product.id)}
-                    p={2}
-                >
-                    Excluir
-                </Button>
+                <PopoverComponent
+                    buttonLabel="Deletar"
+                    titlePopover="Você realmente deseja excluir?"
+                    contentPopover="Essa ação é permanente"
+                    buttonLabelAction="Excluir"
+                    onClickButtonAction={() => handleDeleteProduct(product.id)}
+                />
             </Card.Footer>
         </Card.Root>
     );
