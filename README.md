@@ -72,7 +72,7 @@ git clone https://github.com/yanlucasscf/avantsoft-challenge.git
 http://localhost:3000
 ```
 
--   Para acessar o backend será usada esse link (Definido na main.ts do diretório
+-   Para acessar o backend será usado esse link (Definido na main.ts do diretório
     backend)
 
 ```bash
