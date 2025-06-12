@@ -4,8 +4,10 @@ import { useState } from "react";
 import ProductForm from "./ProductForm";
 import { getErrorMessage } from "../utils/errorMessage";
 import axios from "axios";
+import { useToast } from "@/context/ToastContext";
 
 export default function ProductCardComponent({ product, onProductsChange }) {
+    const { notifySuccess, notifyError } = useToast();
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({ ...product });
     const resetData = () => {
@@ -33,24 +35,21 @@ export default function ProductCardComponent({ product, onProductsChange }) {
             );
 
             if (response.status === 200) {
-                alert("Produto editado com sucesso!");
-
+                notifySuccess("Produto atualizado com sucesso!");
                 setIsEditing(false);
                 onProductsChange();
                 return;
             }
         } catch (error) {
-            console.log(error);
-
             const errorMessage = getErrorMessage(error);
-            alert(errorMessage);
+            notifyError(errorMessage);
         }
     };
 
     const handleSubmit = async () => {
         const { name, sku, price } = formData;
         if (!name || !sku || !price) {
-            alert("Preencha todos os campos obrigatórios.");
+            notifyError("Todos os campos são obrigatórios.");
             return;
         }
 
@@ -63,12 +62,12 @@ export default function ProductCardComponent({ product, onProductsChange }) {
                 `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`,
             );
             if (response.status === 200) {
-                alert("Produto excluído com sucesso!");
+                notifySuccess("Produto excluído com sucesso!");
                 onProductsChange();
                 return;
             }
         } catch (error) {
-            alert("Erro inesperado ao excluir o produto.");
+            notifyError("Erro inesperado ao excluir o produto.");
         }
     };
 
