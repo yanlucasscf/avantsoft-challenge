@@ -83,7 +83,7 @@ export default function ProductCardComponent({ product, onProductsChange }) {
             borderColor="gray.200"
         >
             <Card.Body gap="2">
-                <Card.Title textAlign="center" color="black" fontWeight="bold">
+                <Card.Title textAlign="center" color="black" fontWeight="bold" mt={2}>
                     {product.name}
                 </Card.Title>
 
